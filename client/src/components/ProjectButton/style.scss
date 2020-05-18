@@ -1,0 +1,46 @@
+button.Project {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    position: relative;
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 250ms;
+    font-family: inherit;
+    color: inherit;
+    width: fit-content;
+    user-select: none;
+
+
+    .title {
+        font-size: 12px;
+        width: 100%;
+        margin-top: 10px;
+        opacity: 0.8;
+        transition: all 250ms;
+    }
+
+    .box {
+        $box-area: 95px;
+
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $box-area;
+        height: $box-area;
+        font-size: 32px;
+        border-radius: 25px;
+        color: white;
+    }
+
+    &:hover {
+        transform: scale(1.1);
+        .title {
+            opacity: 1;
+        }
+    }
+}

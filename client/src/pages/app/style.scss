@@ -1,0 +1,298 @@
+@import "~/index.scss";
+
+.App {
+    display: grid;
+    grid-gap: 50px;
+    padding: 50px;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    grid-template-columns: 45% 1fr;
+    grid-template-rows: 1fr 2fr;
+
+    hr {
+        margin: 0;
+        height: 1px;
+        opacity: 0.1;
+        background: $brightness-color;
+        border: none;
+    }
+
+    .Apresentation {
+        .Options {
+            margin-bottom: 20px;
+            position: relative;
+
+            button {
+                color: inherit;
+                background: none;
+                border: none;
+                outline: none;
+                cursor: pointer;
+            }
+
+            & > button {
+                font-size: 1rem;
+                background-color: #3131311A;
+                padding: 9px;
+                border-radius: 5px;
+                .icon-menu::before {
+                    margin: 0;
+                }
+            }
+
+            .float-menu {
+                position: absolute;
+                width: 100px;
+                height: 50px;
+                z-index: 5;
+                .Modal {
+                    justify-content: center;
+                    align-items: center;
+                    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.157);
+                    box-sizing: border-box;
+                    border-radius: 5px;
+                    padding: 10px;
+                    background-color: $brightness-color;
+                }
+            }
+        }
+
+        .username {
+            font-size: 3.2rem;
+            margin: 0;
+
+            & + p {
+                font-size: 16px;
+                margin: 20px 0;
+            }
+        }
+    }
+
+    .ProjectsContainer {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 0 50px;
+        grid-area: 2 / 1;
+
+        & > p {
+            font-size: 18px;
+        }
+
+        .Modal.moreProjects {
+            background-color: rgba(0, 0, 0, 0.7);
+            @supports (backdrop-filter: none) {
+                & {
+                    backdrop-filter: grayscale(10%) blur(15px) brightness(80%);
+                }
+            }
+            @supports not (backdrop-filter: none) {
+                & {
+                    background-color: $dark-color;
+                    opacity: 0.97;
+                }
+            }
+
+            color: white;
+            padding: 15px;
+            box-sizing: border-box;
+            border-radius: 25px;
+            overflow: auto;
+
+            h4 {
+                margin: 20px 0 0 10px;
+            }
+
+            .Projects {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 25px;
+                .Project {
+                    margin: 10px;
+                }
+            }
+        }
+
+        .Modal.addProjects {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.9);
+
+            hr {
+                background: black;
+            }
+
+            .Input {
+                box-shadow: none;
+                margin: 0;
+                padding-left: 0;
+                font-size: 24px;
+            }
+
+            .Input.projectName {
+                margin-top: 20px;
+            }
+
+            .Input.projectDescription {
+                margin-bottom: 20px;
+                font-size: 18px;
+            }
+
+            .addProject {
+                border-radius: 10px;
+                padding: 15px 40px;
+            }
+        }
+
+        & > .Projects {
+            flex-grow: 1;
+            box-sizing: border-box;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            justify-self: center;
+            grid-gap: 20px;
+        }
+
+        @media screen and (max-width: 1200px) {
+            & {
+                padding: 0;
+            }
+        }
+    }
+
+    .Todos {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        grid-area: 1 / 2 / 3 / 2;
+        background-color: $dark-color;
+        color: $brightness-color;
+        border-radius: 50px;
+        padding: 50px;
+        font-size: 16px;
+        // overflow: auto;
+
+        hr {
+            margin-bottom: 25px;
+        }
+
+        div.Project {
+            .title {
+                font-size: 28px;
+                margin: 0 0 20px;
+            }
+
+            .description {
+                font-size: 16px;
+                margin: 0 0 25px;
+                opacity: 0.7;
+                word-break: break-all;
+            }
+
+            .Actions {
+                display: inline-flex;
+                overflow: hidden;
+                transition: width 300ms, margin-left 300ms;
+                width: 0;
+
+                button {
+                    color: inherit;
+                    background: none;
+                    border: none;
+                    outline: none;
+                    cursor: pointer;
+                    margin: 0;
+                    padding: 0;
+                    margin-right: 10px;
+                    font-size: 0.6em;
+
+                    .icon-edit:hover {
+                        color: $primary-color;
+                    }
+
+                    .icon-delete:hover {
+                        color: rgb(251, 66, 66);
+                    }
+                }
+            }
+
+            &:hover .Actions {
+                margin-left: 20px;
+                width: 120px;
+            }
+        }
+
+        .NotCompleted,
+        .Completed {
+            .Tasks {
+                opacity: 0.7;
+            }
+
+            & .Tasks:hover {
+                opacity: 1;
+            }
+        }
+
+        .Button.box {
+            position: sticky;
+            // position: absolute;
+            bottom: calc(#{$grid-base} / 1.5);
+            align-self: flex-end;
+            // right: calc(#{$grid-base} / 1.5);
+        }
+
+        .Modal.addTasks {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: inherit;
+            border-radius: inherit;
+            padding: 50px;
+            box-sizing: border-box;
+
+            hr {
+                background: $brightness-color;
+            }
+
+            .Input {
+                box-shadow: none;
+                margin: 0;
+                padding-left: 0;
+                font-size: 24px;
+            }
+
+            .Input.taskDescription {
+                margin-bottom: 20px;
+                font-size: 18px;
+            }
+
+            .addTasks {
+                border-radius: 10px;
+                padding: 15px 40px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 680px) {
+        height: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+
+        .Todos {
+            box-sizing: border-box;
+            width: 100%;
+            height: calc(100vh - 150px);
+            grid-area: 3 / 1;
+
+            @media screen and (max-height: 585px) {
+                & {
+                    height: 585px;
+                }
+            }
+        }
+    }
+}

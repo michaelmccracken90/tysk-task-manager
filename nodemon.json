@@ -1,0 +1,6 @@
+{
+    "watch": ["build"],
+    "ext": "js",
+    "exec": "node .",
+    "delay": "200"
+}

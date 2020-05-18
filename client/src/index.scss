@@ -1,0 +1,36 @@
+$primary-color: #007acc;
+$dark-color: #313131;
+$brightness-color: #fff;
+$grid-base: 50px;
+
+:export {
+    primaryColor: $primary-color;
+    brightnessColor: $brightness-color;
+    darkColor: $dark-color;
+    gridBase: $grid-base;
+}
+
+@font-face {
+    font-family: "Arvo Regular";
+    src: url("./assets/Arvo-Regular.ttf");
+}
+
+body {
+    margin: 0;
+    font-family: "Arvo Regular", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $dark-color;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

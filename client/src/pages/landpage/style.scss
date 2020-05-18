@@ -1,0 +1,20 @@
+@import "~/index.scss";
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    padding: 100px 50px;
+    background: transparent linear-gradient(96deg, #FFFFFF 0%, #EFEFEF 80%, #FFFFFF 100%) 0% 0% no-repeat padding-box;
+    color: $dark-color;
+    box-sizing: border-box;
+    background-image: url("../../assets/tasks-background.svg");
+    background-size: 50% 100%;
+    background-position: right center;
+
+    h1 {
+        font-size: 8vw;
+        max-width: 80%;
+    }
+}

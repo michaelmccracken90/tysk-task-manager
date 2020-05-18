@@ -1,0 +1,45 @@
+@import "~/index.scss";
+
+.Button {
+    border: none;
+    outline: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    width: fit-content;
+    cursor: pointer;
+
+    &.primary {
+        color: $brightness-color;
+        padding: 15px 60px;
+        background-color: $primary-color;
+        border-radius: 50px;
+        transition: box-shadow 200ms ease-in-out;
+        font-size: 16px;
+        will-change: box-shadow;
+
+        &:hover {
+            box-shadow: 0 0 10px $primary-color;
+        }
+    }
+
+    &.secondary {
+        opacity: 0.6;
+        margin-top: 20px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &.box {
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
+
+            background-color: $primary-color;
+        }
+    }
+}

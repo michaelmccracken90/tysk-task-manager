@@ -1,0 +1,32 @@
+@import "~/index.scss";
+
+.Task {
+    cursor: default;
+
+    .Actions {
+        display: inline-flex;
+
+        button {
+            color: inherit;
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            margin-right: 5px;
+        }
+
+        .hided {
+            display: flex;
+            overflow: hidden;
+            font-size: 0.8em;
+            width: 0;
+            transition: width 300ms;
+        }
+    }
+
+    &:hover .hided {
+        width: 50px;
+    }
+}

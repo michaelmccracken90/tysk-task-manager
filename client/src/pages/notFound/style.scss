@@ -1,0 +1,18 @@
+.NotFound {
+    display: flex;
+    width: 100vw; height: 100vh;
+    justify-content: center;
+    align-items: center;
+
+    .wrapper {
+        width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h3 {
+            margin: 0;
+            height: fit-content;
+        }
+    }
+}

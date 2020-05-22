@@ -61,7 +61,7 @@ export const TasksProvider: React.FC = ({ children }) => {
                 alert.error("Task too long.");
             }
         },
-        [indexTasks, selectedProject, login]
+        [indexTasks, selectedProject, login, alert]
     );
 
     const updateTasks = useCallback(
@@ -84,7 +84,7 @@ export const TasksProvider: React.FC = ({ children }) => {
 
             return results;
         },
-        [login, selectedProject, indexTasks]
+        [login, selectedProject, indexTasks, alert]
     );
 
     const deleteTasks = async (taskId: number) => {

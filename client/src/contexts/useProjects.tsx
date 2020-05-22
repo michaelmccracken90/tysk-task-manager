@@ -59,7 +59,7 @@ export const ProjectsProvider: React.FC = ({ children }) => {
 
             return results;
         },
-        [indexProjects]
+        [indexProjects, alert]
     );
 
     const updateProjects = async (project: Project) => {

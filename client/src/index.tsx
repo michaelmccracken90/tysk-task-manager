@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.scss";
-import "@assets/icons.css"
-import Routes from "@pages/routes";
-import * as serviceWorker from "./serviceWorker";
-import { AlertProvider } from "./contexts/useAlert";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.scss';
+import '@assets/icons.css';
+import Routes from '@pages/routes';
+import * as serviceWorker from './serviceWorker';
+import { AlertProvider } from './contexts/useAlert';
 // import { AuthProvider } from "./contexts/useAuth";
 // import { ProjectsProvider } from "./contexts/useProjects";
 // import { TasksProvider } from "./contexts/useTasks";
@@ -15,13 +15,13 @@ ReactDOM.render(
             {/* <AuthProvider>
                 <ProjectsProvider>
                     <TasksProvider> */}
-                        <Routes />
-                    {/* </TasksProvider>
+            <Routes />
+            {/* </TasksProvider>
                 </ProjectsProvider>
             </AuthProvider> */}
         </AlertProvider>
     </React.StrictMode>,
-    document.getElementById("root")
+    document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

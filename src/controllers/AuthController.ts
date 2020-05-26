@@ -1,25 +1,29 @@
-import { Request, Response, NextFunction } from "express";
-import Auth from "../auth";
-import knex from "../database";
-import User from "src/interfaces/user";
+import { Request, Response, NextFunction } from 'express';
+import Auth from '../auth';
+import knex from '../database';
+import User from 'src/interfaces/user';
 
 export default class AuthController {
-    static async index(req: Request, res: Response, next: NextFunction) {
+    static async index(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void | Response<unknown>> {
         try {
-            const { username, password = "" } = req.body;
+            const { username, password = '' } = req.body;
 
             const { authorization } = req.headers;
             if (authorization) {
-                let token =
+                const token =
                     authorization &&
-                    (authorization as string).replace("Bearer ", "");
+                    (authorization as string).replace('Bearer ', '');
 
                 if (token) {
                     const decodedUser = Auth.decodeToken(token);
 
-                    const user = await knex("users")
+                    const user = await knex('users')
                         .where(decodedUser)
-                        .select(["id", "username"]);
+                        .select(['id', 'username']);
 
                     if (user.length >= 1) {
                         return res.status(200).send({
@@ -31,13 +35,13 @@ export default class AuthController {
 
                 return next({
                     status: 403,
-                    message: "Forbidden",
+                    message: 'Forbidden',
                 });
             }
 
-            const user = (await knex("users")
+            const user = (await knex('users')
                 .where({ username })
-                .select(["id", "username", "password"])) as Array<User>;
+                .select(['id', 'username', 'password'])) as Array<User>;
 
             if (user.length >= 1 && Auth.password(password, user[0].password)) {
                 res.status(200).send({
@@ -47,7 +51,7 @@ export default class AuthController {
             }
             next({
                 status: 404,
-                message: "Username or password incorrect",
+                message: 'Username or password incorrect',
             });
         } catch ({ message }) {
             console.log(message);
@@ -58,20 +62,24 @@ export default class AuthController {
     /**
      * @middleware
      */
-    static async token(req: Request, res: Response, next: NextFunction) {
+    static async token(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { authorization } = req.headers;
 
-            let token =
+            const token =
                 authorization &&
-                (authorization as string).replace("Bearer ", "");
+                (authorization as string).replace('Bearer ', '');
 
             if (token) {
                 const decodedUser = Auth.decodeToken(token);
 
-                const user = await knex("users")
+                const user = await knex('users')
                     .where(decodedUser)
-                    .select(["id", "username"]);
+                    .select(['id', 'username']);
 
                 if (user.length >= 1) {
                     res.locals.user = user[0];
@@ -81,7 +89,7 @@ export default class AuthController {
 
             next({
                 status: 403,
-                message: "Forbidden",
+                message: 'Forbidden',
             });
         } catch ({ message }) {
             next({

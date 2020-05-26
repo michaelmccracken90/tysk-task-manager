@@ -1,54 +1,65 @@
-import knex from "../database";
-import { Request, Response, NextFunction } from "express";
-import bcrypt from "bcrypt";
-import User from "src/interfaces/user";
-import Auth from "../auth";
+import knex from '../database';
+import { Request, Response, NextFunction } from 'express';
+import bcrypt from 'bcrypt';
+import User from 'src/interfaces/user';
+import Auth from '../auth';
 
 export default class UserController {
-    static async index(req: Request, res: Response, next: NextFunction) {
+    static async index(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         const { username } = req.params;
         const { page = 1, perPage = 5 } = req.query;
 
         try {
             let results: Array<User>;
             if (username) {
-                results = await knex("users")
-                    .select(["id", "username"])
+                results = await knex('users')
+                    .select(['id', 'username'])
                     .where({ username });
             } else {
-                results = await knex("users")
-                    .select(["id", "username"])
+                results = await knex('users')
+                    .select(['id', 'username'])
                     .limit(parseInt(perPage as string))
                     .offset(
                         (parseInt(page as string) - 1) *
                             parseInt(perPage as string)
                     )
-                    .orderBy("id", "asc");
+                    .orderBy('id', 'asc');
             }
 
             if (results.length >= 1) res.json(results);
-            else next({ status: 404, message: "User not found" });
+            else next({ status: 404, message: 'User not found' });
         } catch (error) {
             console.log(error.message);
             next({ status: 400 });
         }
     }
 
-    static async create(req: Request, res: Response, next: NextFunction) {
+    static async create(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
-            let { username, password } = req.body;
+            let { password } = req.body;
+            const { username } = req.body;
 
-            if ((await knex("users").where({ username })).length >= 1) {
-                next({ status: 409, message: "User already exists" });
+            if ((await knex('users').where({ username })).length >= 1) {
+                next({ status: 409, message: 'User already exists' });
             } else {
                 password = bcrypt.hashSync(password, 10);
 
-                await knex("users").insert({
+                await knex('users').insert({
                     username,
                     password,
                 });
 
-                const user = await knex("users").where({ username, password }).select(["id", "username", "password"]);
+                const user = await knex('users')
+                    .where({ username, password })
+                    .select(['id', 'username', 'password']);
 
                 res.status(201).json({
                     token: Auth.createToken(user[0]),
@@ -61,27 +72,31 @@ export default class UserController {
         }
     }
 
-    static async update(req: Request, res: Response, next: NextFunction) {
+    static async update(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { id } = res.locals.user;
             const { username, password } = req.body;
 
-            const user = await knex("users")
+            const user = await knex('users')
                 .where({ id })
-                .select(["id", "username"]);
+                .select(['id', 'username']);
 
             if (user.length >= 1) {
                 if (
                     username &&
                     (
-                        await knex("users")
+                        await knex('users')
                             .where({ username })
-                            .select(["id", "username"])
+                            .select(['id', 'username'])
                     ).length >= 1
                 ) {
                     next({
                         status: 409,
-                        message: "User with this username already exists",
+                        message: 'User with this username already exists',
                     });
                 } else {
                     const newUser: User = {};
@@ -89,12 +104,12 @@ export default class UserController {
                     if (password)
                         newUser.password = bcrypt.hashSync(password, 10);
 
-                    await knex("users").update(newUser).where({ id });
+                    await knex('users').update(newUser).where({ id });
 
                     res.json({ old: user[0] });
                 }
             } else {
-                next({ status: 404, message: "User not found" });
+                next({ status: 404, message: 'User not found' });
             }
         } catch (error) {
             console.log(error.message);
@@ -102,14 +117,18 @@ export default class UserController {
         }
     }
 
-    static async delete(req: Request, res: Response, next: NextFunction) {
+    static async delete(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { id } = res.locals.user;
-            if ((await knex("users").where({ id })).length >= 1) {
-                await knex("users").where({ id }).del();
+            if ((await knex('users').where({ id })).length >= 1) {
+                await knex('users').where({ id }).del();
                 res.send();
             } else {
-                next({ status: 404, message: "User not found" });
+                next({ status: 404, message: 'User not found' });
             }
         } catch (error) {
             console.log(error.message);

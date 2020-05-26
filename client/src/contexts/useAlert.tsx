@@ -1,45 +1,40 @@
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
-import { positions, Provider, AlertComponentPropsWithStyle } from "react-alert";
+import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { positions, Provider, AlertComponentPropsWithStyle } from 'react-alert';
 
 const getColor = (type: string | undefined) => {
     switch (type) {
-        case "error":
+        case 'error':
             return `#eb4034`;
-        case "info":
+        case 'info':
             return `#3471eb`;
-        case "success":
+        case 'success':
             return `#05ff16`;
     }
 };
 
 const alertStyle = {
-    color: "#FFFEFE",
-    borderRadius: "10px",
+    color: '#FFFEFE',
+    borderRadius: '10px',
     padding: '20px',
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    boxShadow: "-3px 3px 6px #00000029",
-    width: "300px",
-    boxSizing: "border-box",
-    fontSize: "14px",
-    position: "relative",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    boxShadow: '-3px 3px 6px #00000029',
+    width: '300px',
+    boxSizing: 'border-box',
+    fontSize: '14px',
+    position: 'relative',
 };
 
 const messageStyle = {
     flex: 3,
-    textAlign: "center",
-    width: "100%",
+    textAlign: 'center',
+    width: '100%',
 };
 
-interface PropStyle
-    extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
+interface PropStyle extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
 
-const AlertTemplate: React.FC<AlertComponentPropsWithStyle> = ({
-    message,
-    style,
-    options
-}) => (
+const AlertTemplate: React.FC<AlertComponentPropsWithStyle> = ({ message, style, options }) => (
     <div style={{ ...alertStyle, ...style, backgroundColor: getColor(options.type) } as PropStyle}>
         <div style={messageStyle as PropStyle}>{message}</div>
     </div>

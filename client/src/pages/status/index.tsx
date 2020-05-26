@@ -1,10 +1,10 @@
-import React from "react";
-import useAxios from "axios-hooks";
+import React from 'react';
+import useAxios from 'axios-hooks';
 
-import "./style.scss";
+import './style.scss';
 
 const Status: React.FC = () => {
-    const [{ data: status, loading, error }, refetch] = useAxios("/api/status");
+    const [{ data: status, loading, error }, refetch] = useAxios('/api/status');
 
     if (error) return <p>Error!</p>;
     return (

@@ -1,9 +1,11 @@
 {
     "version": 2,
-    "builds": [{
-        "use": "@now/node",
-        "src": "build/server.js"
-    }],
+    "builds": [
+        {
+            "use": "@now/node",
+            "src": "build/server.js"
+        }
+    ],
     "public": false,
     "routes": [
         {

@@ -4,7 +4,7 @@
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background: url("../../assets/login-background.svg") no-repeat;
+    background: url('../../assets/login-background.svg') no-repeat;
     background-position: 15vw 7vh;
     background-size: 100vw 100vh;
 }
@@ -25,7 +25,8 @@
         margin-top: 25px;
     }
 
-    .Logo, h3 {
+    .Logo,
+    h3 {
         align-self: flex-start;
     }
 

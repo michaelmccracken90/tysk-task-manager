@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAlert } from "react-alert";
-import { Helmet } from "react-helmet";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAlert } from 'react-alert';
+import { Helmet } from 'react-helmet';
 
-import AuthLayout from "./layout";
-import Input from "@components/Input";
-import Button from "@components/Button";
-import { useAuth } from "~/contexts/useAuth";
+import AuthLayout from './layout';
+import Input from '@components/Input';
+import Button from '@components/Button';
+import { useAuth } from '~/contexts/useAuth';
 
 const Register: React.FC = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [repeatPassword, setRepeatPassword] = useState("");
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
 
     const { signUp } = useAuth();
     const alert = useAlert();
@@ -20,17 +20,15 @@ const Register: React.FC = () => {
         e.preventDefault();
 
         if (!(username.length >= 4 && username.length <= 18)) {
-            alert.error(
-                "Username needs to be greater than 4 and less than 18."
-            );
+            alert.error('Username needs to be greater than 4 and less than 18.');
         } else if (!(password.length >= 6) || !(password.length <= 72)) {
             if (password.length <= 72) {
-                alert.error("Password needs to be greater than 6.");
+                alert.error('Password needs to be greater than 6.');
             } else {
-                alert.error("Password is too big.");
+                alert.error('Password is too big.');
             }
         } else if (password !== repeatPassword) {
-            alert.error("Passwords needs to be equal.");
+            alert.error('Passwords needs to be equal.');
         } else {
             signUp(username, password);
         }

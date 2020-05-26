@@ -1,4 +1,4 @@
-@import "~/index.scss";
+@import '~/index.scss';
 
 .App {
     display: grid;
@@ -33,7 +33,7 @@
 
             & > button {
                 font-size: 1rem;
-                background-color: #3131311A;
+                background-color: #3131311a;
                 padding: 9px;
                 border-radius: 5px;
                 .icon-menu::before {

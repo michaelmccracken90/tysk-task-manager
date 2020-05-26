@@ -1,29 +1,29 @@
-import React from "react";
+import React from 'react';
 
-import "./style.scss";
+import './style.scss';
 
 type ButtonProps = {
-    type: "submit" | "reset" | "button" | "box";
+    type: 'submit' | 'reset' | 'button' | 'box';
     className?: string;
     disabled?: boolean;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     style?: React.CSSProperties;
     boxStyle?: React.CSSProperties;
-    boxIcon?: React.ReactNode
+    boxIcon?: React.ReactNode;
 };
 
 const Button: React.FC<ButtonProps> = ({
     children,
     type,
-    className = "",
+    className = '',
     disabled = false,
     onClick = () => {},
     style = {},
     boxStyle = {},
-    boxIcon
+    boxIcon,
 }) => {
     switch (type) {
-        case "box":
+        case 'box':
             return (
                 <button
                     className={`Button ${className} box`}
@@ -32,7 +32,9 @@ const Button: React.FC<ButtonProps> = ({
                     disabled={disabled}
                     style={style}
                 >
-                    <div className="box" style={boxStyle}>{boxIcon && boxIcon}</div>
+                    <div className="box" style={boxStyle}>
+                        {boxIcon && boxIcon}
+                    </div>
                     <div className="title">{children}</div>
                 </button>
             );

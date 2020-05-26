@@ -1,7 +1,7 @@
-import React from "react";
-import VerticalRow from "~/components/VerticalRow";
+import React from 'react';
+import VerticalRow from '~/components/VerticalRow';
 
-import "./style.scss";
+import './style.scss';
 
 const NotFound: React.FC = () => {
     return (

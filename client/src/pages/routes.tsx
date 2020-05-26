@@ -1,17 +1,17 @@
-import React from "react";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
-import Landpage from "./landpage";
-import Status from "./status";
-import Login from "./auth/login";
-import Register from "./auth/register";
+import Landpage from './landpage';
+import Status from './status';
+import Login from './auth/login';
+import Register from './auth/register';
 
-import App from "./app";
-import NotFound from "./notFound";
+import App from './app';
+import NotFound from './notFound';
 
-import { AuthProvider } from "../contexts/useAuth";
-import { ProjectsProvider } from "../contexts/useProjects";
-import { TasksProvider } from "../contexts/useTasks";
+import { AuthProvider } from '../contexts/useAuth';
+import { ProjectsProvider } from '../contexts/useProjects';
+import { TasksProvider } from '../contexts/useTasks';
 
 export default () => {
     return (

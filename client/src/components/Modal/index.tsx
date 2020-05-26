@@ -1,6 +1,6 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from 'react';
 
-import "./style.scss";
+import './style.scss';
 
 // TODO: Add new property called `name` to pass to onCloseModal
 interface ModalProps {
@@ -14,26 +14,20 @@ interface ModalProps {
      * @memberof ModalProps
      */
     onCloseModal?: () => void;
-    display?: string
+    display?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
     children,
     hidden,
     style,
-    className = "",
-    display = "block",
+    className = '',
+    display = 'block',
     onCloseModal = () => {},
 }: ModalProps) => {
-    const hasParentByClass = (
-        target: HTMLElement,
-        className: string
-    ): HTMLElement | null => {
+    const hasParentByClass = (target: HTMLElement, className: string): HTMLElement | null => {
         let currentElement: HTMLElement | null = target;
-        while (
-            currentElement !== null &&
-            !currentElement.classList.contains(className)
-        ) {
+        while (currentElement !== null && !currentElement.classList.contains(className)) {
             currentElement = currentElement.parentElement;
         }
         return currentElement;
@@ -41,25 +35,21 @@ const Modal: React.FC<ModalProps> = ({
 
     const onclick = useCallback(
         (e: React.MouseEvent) => {
-            !hasParentByClass(e.target as HTMLElement, "Modal") &&
-                onCloseModal();
+            !hasParentByClass(e.target as HTMLElement, 'Modal') && onCloseModal();
         },
-        [onCloseModal]
+        [onCloseModal],
     ) as () => {};
 
     useEffect(() => {
         if (hidden) {
-            document.removeEventListener("click", onclick);
+            document.removeEventListener('click', onclick);
         } else {
-            document.addEventListener("click", onclick);
+            document.addEventListener('click', onclick);
         }
     }, [hidden, onclick, onCloseModal]);
 
     return (
-        <div
-            className={`Modal ${className}`}
-            style={{ ...style, display: !hidden ? display : "none" }}
-        >
+        <div className={`Modal ${className}`} style={{ ...style, display: !hidden ? display : 'none' }}>
             {children}
         </div>
     );

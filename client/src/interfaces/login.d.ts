@@ -3,5 +3,5 @@ export default interface Login {
     user: {
         id: number;
         username: string;
-    }
+    };
 }

@@ -1,4 +1,4 @@
-import Login from "./login";
+import Login from './login';
 
 export default interface AuthContextProps {
     signed: boolean;

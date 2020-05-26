@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import "./style.scss";
+import './style.scss';
 
 // TODO: Use validatorjs to validate based on type
 
@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
     onBlur,
     value,
     disabled,
-    className = "",
+    className = '',
     autoFocus,
 }: InputProps) => {
     return (
@@ -38,7 +38,7 @@ const Input: React.FC<InputProps> = ({
             required={required}
             onChange={onChange}
             onBlur={onBlur}
-            value={value || ""}
+            value={value || ''}
             disabled={disabled}
             autoFocus={autoFocus}
         />

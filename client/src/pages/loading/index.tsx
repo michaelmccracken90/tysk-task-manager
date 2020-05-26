@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import "./style.scss";
+import './style.scss';
 
 const Loading: React.FC = () => {
-    return <div className="Loading"><div className="loader"></div></div>;
+    return (
+        <div className="Loading">
+            <div className="loader"></div>
+        </div>
+    );
 };
 
 export default Loading;

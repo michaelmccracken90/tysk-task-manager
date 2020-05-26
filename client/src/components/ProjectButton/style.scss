@@ -2,7 +2,7 @@ button.Project {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items:center;
+    align-items: center;
     position: relative;
     background: none;
     outline: none;
@@ -13,7 +13,6 @@ button.Project {
     color: inherit;
     width: fit-content;
     user-select: none;
-
 
     .title {
         font-size: 12px;

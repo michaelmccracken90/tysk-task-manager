@@ -1,26 +1,26 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useWindowSize } from "@react-hook/window-size";
-import { Scrollbars } from "react-custom-scrollbars";
+import React, { useState, useCallback, useEffect } from 'react';
+import { useWindowSize } from '@react-hook/window-size';
+import { Scrollbars } from 'react-custom-scrollbars';
 
-import "./style.scss";
+import './style.scss';
 
-import { useAuth } from "~/contexts/useAuth";
-import Input from "~/components/Input";
-import useProjects from "~/contexts/useProjects";
-import ProjectButton from "~/components/ProjectButton";
-import Modal from "~/components/Modal";
-import Button from "~/components/Button";
-import useTasks from "~/contexts/useTasks";
-import TaskLI from "~/components/Task";
-import { Redirect } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import Loading from "../loading";
+import { useAuth } from '~/contexts/useAuth';
+import Input from '~/components/Input';
+import useProjects from '~/contexts/useProjects';
+import ProjectButton from '~/components/ProjectButton';
+import Modal from '~/components/Modal';
+import Button from '~/components/Button';
+import useTasks from '~/contexts/useTasks';
+import TaskLI from '~/components/Task';
+import { Redirect } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import Loading from '../loading';
 
 // TODO: Add search by task or project
 
 const App: React.FC = () => {
     useEffect(() => {
-        window.localStorage.setItem("previouslyVisited", "true");
+        window.localStorage.setItem('previouslyVisited', 'true');
     }, []);
 
     const { signed, login, signOut } = useAuth();
@@ -35,18 +35,12 @@ const App: React.FC = () => {
         loading: projectsLoading,
     } = useProjects();
 
-    const {
-        tasks,
-        updateTasks,
-        deleteTasks,
-        createTasks,
-        loading: tasksLoading,
-    } = useTasks();
+    const { tasks, updateTasks, deleteTasks, createTasks, loading: tasksLoading } = useTasks();
     // #endregion
 
-    const [projectName, setProjectName] = useState("");
-    const [projectDescription, setProjectDescription] = useState("");
-    const [tasksDescription, setTasksDescription] = useState("");
+    const [projectName, setProjectName] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
+    const [tasksDescription, setTasksDescription] = useState('');
 
     // #region Editing projects / tasks
     const [editing, setEditing] = useState({
@@ -56,16 +50,16 @@ const App: React.FC = () => {
 
     const [editingValues, setEditingValues] = useState({
         project: {
-            title: "",
-            description: "",
+            title: '',
+            description: '',
         },
         task: {
-            description: "",
+            description: '',
         },
     });
 
     const onChangeEditing = useCallback(
-        (editingName: "project" | "task", value: {}) => {
+        (editingName: 'project' | 'task', value: {}) => {
             setEditingValues((previousEditingValues) => ({
                 ...previousEditingValues,
                 [editingName]: {
@@ -74,11 +68,11 @@ const App: React.FC = () => {
                 },
             }));
         },
-        [setEditingValues]
+        [setEditingValues],
     );
 
-    const stopEditing = (editingName: "project" | "task") => {
-        if (editingName === "project") updateProjects(editingValues.project);
+    const stopEditing = (editingName: 'project' | 'task') => {
+        if (editingName === 'project') updateProjects(editingValues.project);
         else if (editing.task)
             updateTasks({
                 description: editingValues.task.description,
@@ -92,18 +86,14 @@ const App: React.FC = () => {
     };
 
     const startEditing = useCallback(
-        (
-            editingName: "project" | "task",
-            defaultValue: {},
-            taskId?: number
-        ) => {
+        (editingName: 'project' | 'task', defaultValue: {}, taskId?: number) => {
             onChangeEditing(editingName, defaultValue);
             setEditing((previousEditing) => ({
                 ...previousEditing,
-                [editingName]: editingName === "project" ? true : taskId,
+                [editingName]: editingName === 'project' ? true : taskId,
             }));
         },
-        [setEditing, onChangeEditing]
+        [setEditing, onChangeEditing],
     );
     // #endregion
 
@@ -112,28 +102,23 @@ const App: React.FC = () => {
             if (taskId < 0) return;
 
             switch (action) {
-                case "changeCompleted":
-                    value !== null &&
-                        updateTasks({ id: taskId, completed: value });
+                case 'changeCompleted':
+                    value !== null && updateTasks({ id: taskId, completed: value });
                     break;
 
-                case "delete":
+                case 'delete':
                     deleteTasks(taskId);
                     break;
 
-                case "edit":
-                    startEditing(
-                        "task",
-                        { description: value.description },
-                        taskId
-                    );
+                case 'edit':
+                    startEditing('task', { description: value.description }, taskId);
                     break;
 
                 default:
                     break;
             }
         },
-        [startEditing, updateTasks, deleteTasks]
+        [startEditing, updateTasks, deleteTasks],
     );
 
     // #region Modals
@@ -159,15 +144,15 @@ const App: React.FC = () => {
     };
 
     const modalCallbacks = {
-        closeAddProjects: useCallback(() => closeModal("addProjects"), []),
-        openAddProjects: useCallback(() => openModal("addProjects"), []),
-        closeMoreProjects: useCallback(() => closeModal("moreProjects"), []),
-        openMoreProjects: useCallback(() => openModal("moreProjects"), []),
-        closeAddTasks: useCallback(() => closeModal("addTasks"), []),
-        openAddTasks: useCallback(() => openModal("addTasks"), []),
+        closeAddProjects: useCallback(() => closeModal('addProjects'), []),
+        openAddProjects: useCallback(() => openModal('addProjects'), []),
+        closeMoreProjects: useCallback(() => closeModal('moreProjects'), []),
+        openMoreProjects: useCallback(() => openModal('moreProjects'), []),
+        closeAddTasks: useCallback(() => closeModal('addTasks'), []),
+        openAddTasks: useCallback(() => openModal('addTasks'), []),
 
-        openOptions: useCallback(() => openModal("options"), []),
-        closeOptions: useCallback(() => closeModal("options"), []),
+        openOptions: useCallback(() => openModal('options'), []),
+        closeOptions: useCallback(() => closeModal('options'), []),
     };
     // #endregion
 
@@ -175,39 +160,21 @@ const App: React.FC = () => {
     const [width, height] = useWindowSize();
 
     const getProjectsDisplayed = useCallback(() => {
-        const math =
-            Math.floor(width / (width > 1200 ? 350 : width < 680 ? 150 : 300)) *
-                Math.floor(height / 300) -
-            2;
+        const math = Math.floor(width / (width > 1200 ? 350 : width < 680 ? 150 : 300)) * Math.floor(height / 300) - 2;
         return math >= 0 ? math : 0;
     }, [width, height]);
 
-    const [projectsDisplayed, setProjectsDisplayed] = useState(
-        getProjectsDisplayed
-    );
+    const [projectsDisplayed, setProjectsDisplayed] = useState(getProjectsDisplayed);
 
-    useEffect(() => setProjectsDisplayed(getProjectsDisplayed), [
-        getProjectsDisplayed,
-        width,
-        height,
-    ]);
+    useEffect(() => setProjectsDisplayed(getProjectsDisplayed), [getProjectsDisplayed, width, height]);
     // #endregion
 
-    const paginate = (
-        array: Array<any>,
-        page_size: number = 6,
-        page_number: number = 1
-    ) => {
-        return page_size > array.length
-            ? array
-            : array.slice(
-                  (page_number - 1) * page_size,
-                  page_number * page_size
-              );
+    const paginate = (array: Array<any>, page_size: number = 6, page_number: number = 1) => {
+        return page_size > array.length ? array : array.slice((page_number - 1) * page_size, page_number * page_size);
     };
 
-    if (!signed && !window.localStorage.getItem("token")) {
-        window.localStorage.setItem("token", "");
+    if (!signed && !window.localStorage.getItem('token')) {
+        window.localStorage.setItem('token', '');
         return <Redirect to="/login" />;
     }
 
@@ -223,11 +190,7 @@ const App: React.FC = () => {
                         <span className="icon-menu"></span>
                     </button>
                     <div className="float-menu">
-                        <Modal
-                            hidden={hiddenModals.options}
-                            display="flex"
-                            onCloseModal={modalCallbacks.closeOptions}
-                        >
+                        <Modal hidden={hiddenModals.options} display="flex" onCloseModal={modalCallbacks.closeOptions}>
                             <button onClick={() => signOut()}>
                                 <span className="icon-logout"></span> Logout
                             </button>
@@ -279,9 +242,9 @@ const App: React.FC = () => {
                         onClick={() => {
                             if (projectName.length > 2) {
                                 createProjects(projectName, projectDescription);
-                                setProjectName("");
-                                setProjectDescription("");
-                                closeModal("addProjects");
+                                setProjectName('');
+                                setProjectDescription('');
+                                closeModal('addProjects');
                             }
                         }}
                         className="primary addProject"
@@ -296,19 +259,11 @@ const App: React.FC = () => {
                     onCloseModal={modalCallbacks.closeMoreProjects}
                 >
                     <Scrollbars>
-                        <h4>
-                            More {projects.length - projectsDisplayed} projects
-                        </h4>
+                        <h4>More {projects.length - projectsDisplayed} projects</h4>
                         <div className="Projects">
-                            {projects
-                                .slice(projectsDisplayed)
-                                .map((project, index) => (
-                                    <ProjectButton
-                                        type="normal"
-                                        project={project}
-                                        key={index}
-                                    />
-                                ))}
+                            {projects.slice(projectsDisplayed).map((project, index) => (
+                                <ProjectButton type="normal" project={project} key={index} />
+                            ))}
                         </div>
                     </Scrollbars>
                 </Modal>
@@ -316,42 +271,23 @@ const App: React.FC = () => {
                     className="Projects"
                     style={{
                         gridTemplateColumns: `repeat(${
-                            Math.floor(
-                                width /
-                                    (width > 1200
-                                        ? 350
-                                        : width < 680
-                                        ? 150
-                                        : 300)
-                            ) || 1
+                            Math.floor(width / (width > 1200 ? 350 : width < 680 ? 150 : 300)) || 1
                         }, auto)`,
                     }}
                 >
                     {projects.length > projectsDisplayed + 1
                         ? paginate(projects, projectsDisplayed)
-                              .map((project, index) => (
-                                  <ProjectButton
-                                      type="normal"
-                                      project={project}
-                                      key={index}
-                                  />
-                              ))
+                              .map((project, index) => <ProjectButton type="normal" project={project} key={index} />)
                               .concat(
                                   <ProjectButton
                                       key={projects.length}
                                       type="list"
-                                      quantity={
-                                          projects.length - projectsDisplayed
-                                      }
+                                      quantity={projects.length - projectsDisplayed}
                                       onClick={modalCallbacks.openMoreProjects}
-                                  />
+                                  />,
                               )
                         : projects.map((project, index) => (
-                              <ProjectButton
-                                  type="normal"
-                                  project={project}
-                                  key={index}
-                              />
+                              <ProjectButton type="normal" project={project} key={index} />
                           ))}
                     <Button
                         type="box"
@@ -364,14 +300,7 @@ const App: React.FC = () => {
                 </div>
             </div>
 
-            <div
-                style={
-                    tasks.length >= 1
-                        ? {}
-                        : { justifyContent: "center", alignItems: "center" }
-                }
-                className="Todos"
-            >
+            <div style={tasks.length >= 1 ? {} : { justifyContent: 'center', alignItems: 'center' }} className="Todos">
                 {tasksLoading && <Loading />}
                 {projects.length >= 1 ? (
                     <>
@@ -385,9 +314,7 @@ const App: React.FC = () => {
                             <hr />
                             <Input
                                 value={tasksDescription}
-                                onChange={(e) =>
-                                    setTasksDescription(e.target.value)
-                                }
+                                onChange={(e) => setTasksDescription(e.target.value)}
                                 className="taskDescription"
                                 type="text"
                                 placeholder="Make something great"
@@ -396,8 +323,8 @@ const App: React.FC = () => {
                                 onClick={() => {
                                     if (tasksDescription.length > 2) {
                                         createTasks(tasksDescription);
-                                        setTasksDescription("");
-                                        closeModal("addTasks");
+                                        setTasksDescription('');
+                                        closeModal('addTasks');
                                     }
                                 }}
                                 className="primary addTasks"
@@ -406,12 +333,7 @@ const App: React.FC = () => {
                                 Add
                             </Button>
                         </Modal>
-                        <div
-                            className="Project"
-                            style={
-                                tasks.length < 1 ? { textAlign: "center" } : {}
-                            }
-                        >
+                        <div className="Project" style={tasks.length < 1 ? { textAlign: 'center' } : {}}>
                             <p className="title">
                                 {editing.project ? (
                                     <Input
@@ -420,14 +342,13 @@ const App: React.FC = () => {
                                         autoFocus
                                         onBlur={() =>
                                             setTimeout(() => {
-                                                !document.activeElement?.classList.contains(
-                                                    "input--edit-text"
-                                                ) && stopEditing("project");
+                                                !document.activeElement?.classList.contains('input--edit-text') &&
+                                                    stopEditing('project');
                                             }, 50)
                                         }
                                         value={editingValues.project.title}
                                         onChange={(e) => {
-                                            onChangeEditing("project", {
+                                            onChangeEditing('project', {
                                                 title: e.target.value,
                                             });
                                         }}
@@ -439,11 +360,9 @@ const App: React.FC = () => {
                                     <span className="Actions">
                                         <button
                                             onClick={() =>
-                                                startEditing("project", {
-                                                    title:
-                                                        selectedProject.title,
-                                                    description:
-                                                        selectedProject.description,
+                                                startEditing('project', {
+                                                    title: selectedProject.title,
+                                                    description: selectedProject.description,
                                                 })
                                             }
                                         >
@@ -451,9 +370,8 @@ const App: React.FC = () => {
                                         </button>
                                         <button
                                             onClick={() =>
-                                                window.confirm(
-                                                    "Are you sure you want to delete this project?"
-                                                ) && deleteProjects()
+                                                window.confirm('Are you sure you want to delete this project?') &&
+                                                deleteProjects()
                                             }
                                         >
                                             <span className="icon-delete"></span>
@@ -468,16 +386,13 @@ const App: React.FC = () => {
                                         className="input--edit-text"
                                         onBlur={() =>
                                             setTimeout(() => {
-                                                !document.activeElement?.classList.contains(
-                                                    "input--edit-text"
-                                                ) && stopEditing("project");
+                                                !document.activeElement?.classList.contains('input--edit-text') &&
+                                                    stopEditing('project');
                                             }, 50)
                                         }
-                                        value={
-                                            editingValues.project.description
-                                        }
+                                        value={editingValues.project.description}
                                         onChange={(e) => {
-                                            onChangeEditing("project", {
+                                            onChangeEditing('project', {
                                                 description: e.target.value,
                                             });
                                         }}
@@ -488,10 +403,7 @@ const App: React.FC = () => {
                             </div>
                         </div>
                         {tasks.length >= 1 ? (
-                            <Scrollbars
-                                autoHide
-                                style={{ marginBottom: "-80px" }}
-                            >
+                            <Scrollbars autoHide style={{ marginBottom: '-80px' }}>
                                 <div className="NotCompleted">
                                     <p>Todo</p>
                                     <hr />
@@ -499,8 +411,7 @@ const App: React.FC = () => {
                                         {tasks
                                             .filter((task) => !task.completed)
                                             .map((task, index) =>
-                                                editing.task &&
-                                                task.id === editing.task ? (
+                                                editing.task && task.id === editing.task ? (
                                                     <Input
                                                         autoFocus
                                                         type="text"
@@ -509,35 +420,20 @@ const App: React.FC = () => {
                                                         onBlur={() =>
                                                             setTimeout(() => {
                                                                 !document.activeElement?.classList.contains(
-                                                                    "input--edit-text"
-                                                                ) &&
-                                                                    stopEditing(
-                                                                        "task"
-                                                                    );
+                                                                    'input--edit-text',
+                                                                ) && stopEditing('task');
                                                             }, 50)
                                                         }
-                                                        value={
-                                                            editingValues.task
-                                                                .description
-                                                        }
+                                                        value={editingValues.task.description}
                                                         onChange={(e) => {
-                                                            onChangeEditing(
-                                                                "task",
-                                                                {
-                                                                    description:
-                                                                        e.target
-                                                                            .value,
-                                                                }
-                                                            );
+                                                            onChangeEditing('task', {
+                                                                description: e.target.value,
+                                                            });
                                                         }}
                                                     />
                                                 ) : (
-                                                    <TaskLI
-                                                        key={index}
-                                                        task={task}
-                                                        onAction={onTaskAction}
-                                                    />
-                                                )
+                                                    <TaskLI key={index} task={task} onAction={onTaskAction} />
+                                                ),
                                             )}
                                     </div>
                                 </div>
@@ -548,8 +444,7 @@ const App: React.FC = () => {
                                         {tasks
                                             .filter((task) => task.completed)
                                             .map((task, index) =>
-                                                editing.task &&
-                                                task.id === editing.task ? (
+                                                editing.task && task.id === editing.task ? (
                                                     <Input
                                                         autoFocus
                                                         type="text"
@@ -558,35 +453,20 @@ const App: React.FC = () => {
                                                         onBlur={() =>
                                                             setTimeout(() => {
                                                                 !document.activeElement?.classList.contains(
-                                                                    "input--edit-text"
-                                                                ) &&
-                                                                    stopEditing(
-                                                                        "task"
-                                                                    );
+                                                                    'input--edit-text',
+                                                                ) && stopEditing('task');
                                                             }, 50)
                                                         }
-                                                        value={
-                                                            editingValues.task
-                                                                .description
-                                                        }
+                                                        value={editingValues.task.description}
                                                         onChange={(e) => {
-                                                            onChangeEditing(
-                                                                "task",
-                                                                {
-                                                                    description:
-                                                                        e.target
-                                                                            .value,
-                                                                }
-                                                            );
+                                                            onChangeEditing('task', {
+                                                                description: e.target.value,
+                                                            });
                                                         }}
                                                     />
                                                 ) : (
-                                                    <TaskLI
-                                                        key={index}
-                                                        task={task}
-                                                        onAction={onTaskAction}
-                                                    />
-                                                )
+                                                    <TaskLI key={index} task={task} onAction={onTaskAction} />
+                                                ),
                                             )}
                                     </div>
                                 </div>
@@ -598,9 +478,9 @@ const App: React.FC = () => {
                             type="box"
                             onClick={modalCallbacks.openAddTasks}
                             boxStyle={{
-                                width: "35px",
-                                height: "35px",
-                                borderRadius: "10px",
+                                width: '35px',
+                                height: '35px',
+                                borderRadius: '10px',
                             }}
                             boxIcon={<span className="icon-plus" />}
                         />

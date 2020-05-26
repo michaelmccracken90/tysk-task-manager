@@ -11,23 +11,21 @@ $grid-base: 50px;
 }
 
 @font-face {
-    font-family: "Arvo Regular";
-    src: url("./assets/Arvo-Regular.ttf");
+    font-family: 'Arvo Regular';
+    src: url('./assets/Arvo-Regular.ttf');
 }
 
 body {
     margin: 0;
-    font-family: "Arvo Regular", -apple-system, BlinkMacSystemFont, "Segoe UI",
-        "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
+    font-family: 'Arvo Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+        'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: $dark-color;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 a {

@@ -1,15 +1,9 @@
-import React, {
-    createContext,
-    useState,
-    useContext,
-    useEffect,
-    useCallback,
-} from "react";
-import { TasksContextProps, Task } from "~/interfaces/api";
-import useAuth from "./useAuth";
-import api from "~/services/axios";
-import useProjects from "./useProjects";
-import { useAlert } from "react-alert";
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { TasksContextProps, Task } from '~/interfaces/api';
+import useAuth from './useAuth';
+import api from '~/services/axios';
+import useProjects from './useProjects';
+import { useAlert } from 'react-alert';
 
 const TasksContext = createContext<TasksContextProps>({} as TasksContextProps);
 
@@ -25,11 +19,9 @@ export const TasksProvider: React.FC = ({ children }) => {
     const indexTasks = useCallback(async () => {
         if (!selectedProject) return [];
         setLoading(true);
-        const results = (
-            await api.get(
-                `/users/${login?.user.id}/projects/${selectedProject.id}/tasks`
-            )
-        ).data as Array<Task>;
+        const results = (await api.get(`/users/${login?.user.id}/projects/${selectedProject.id}/tasks`)).data as Array<
+            Task
+        >;
 
         setTasks(results);
         setLoading(false);
@@ -46,37 +38,30 @@ export const TasksProvider: React.FC = ({ children }) => {
             if (description.length < 64) {
                 setLoading(true);
                 const results = (
-                    await api.post(
-                        `/users/${login?.user.id}/projects/${selectedProject.id}/tasks`,
-                        {
-                            description,
-                        }
-                    )
+                    await api.post(`/users/${login?.user.id}/projects/${selectedProject.id}/tasks`, {
+                        description,
+                    })
                 ).data as Task;
                 setLoading(false);
                 await indexTasks();
 
                 return results;
             } else {
-                alert.error("Task too long.");
+                alert.error('Task too long.');
             }
         },
-        [indexTasks, selectedProject, login, alert]
+        [indexTasks, selectedProject, login, alert],
     );
 
     const updateTasks = useCallback(
         async (task: Task) => {
-            if (task.description && task.description.length > 64)
-                return alert.error("Task too long.");
+            if (task.description && task.description.length > 64) return alert.error('Task too long.');
             setLoading(true);
             const results = (
-                await api.put(
-                    `/users/${login?.user.id}/projects/${selectedProject.id}/tasks/${task.id}`,
-                    {
-                        description: task.description,
-                        completed: task.completed || false,
-                    }
-                )
+                await api.put(`/users/${login?.user.id}/projects/${selectedProject.id}/tasks/${task.id}`, {
+                    description: task.description,
+                    completed: task.completed || false,
+                })
             ).data as { new: Task; old: Task };
 
             setLoading(false);
@@ -84,16 +69,13 @@ export const TasksProvider: React.FC = ({ children }) => {
 
             return results;
         },
-        [login, selectedProject, indexTasks, alert]
+        [login, selectedProject, indexTasks, alert],
     );
 
     const deleteTasks = async (taskId: number) => {
         setLoading(true);
-        const results = (
-            await api.delete(
-                `/users/${login?.user.id}/projects/${selectedProject.id}/tasks/${taskId}`
-            )
-        ).data as Task;
+        const results = (await api.delete(`/users/${login?.user.id}/projects/${selectedProject.id}/tasks/${taskId}`))
+            .data as Task;
         setLoading(false);
         await indexTasks();
         return results;

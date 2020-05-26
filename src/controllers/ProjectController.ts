@@ -1,9 +1,13 @@
-import knex from "../database";
-import { Request, Response, NextFunction } from "express";
-import Project from "src/interfaces/project";
+import knex from '../database';
+import { Request, Response, NextFunction } from 'express';
+import Project from 'src/interfaces/project';
 
 export default class ProjectController {
-    static async index(req: Request, res: Response, next: NextFunction) {
+    static async index(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { user_id: target_user_id, id } = req.params;
 
@@ -15,7 +19,7 @@ export default class ProjectController {
                     message: "You don't have permission",
                 });
 
-            const query = knex("projects");
+            const query = knex('projects');
 
             if (id) {
                 query.where({ user_id, id });
@@ -23,7 +27,7 @@ export default class ProjectController {
                 query.where({ user_id });
             }
 
-            const results: Array<Project> = await query.orderBy("id");
+            const results: Array<Project> = await query.orderBy('id');
 
             res.json(results);
         } catch (error) {
@@ -32,24 +36,28 @@ export default class ProjectController {
         }
     }
 
-    static async create(req: Request, res: Response, next: NextFunction) {
+    static async create(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { title, description } = req.body;
             const { id: user_id } = res.locals.user;
 
-            const result = await knex("projects")
+            const result = await knex('projects')
                 .insert({
                     title,
                     description,
                     user_id,
                 })
-                .returning("*");
+                .returning('*');
 
             // To support RETURNING
             const project =
-                typeof result === "object"
+                typeof result === 'object'
                     ? result
-                    : await knex("projects").where({ id: result });
+                    : await knex('projects').where({ id: result });
 
             !res.finished &&
                 res
@@ -61,7 +69,11 @@ export default class ProjectController {
         }
     }
 
-    static async update(req: Request, res: Response, next: NextFunction) {
+    static async update(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { id, user_id: target_user_id } = req.params;
             const { title, description } = req.body;
@@ -74,29 +86,27 @@ export default class ProjectController {
                     message: "You don't have permission",
                 });
 
-            const oldProject = await knex("projects").where({ id });
+            const oldProject = await knex('projects').where({ id });
 
             if (oldProject.length >= 1) {
-                const result = await knex("projects")
+                const result = await knex('projects')
                     .update({ title, description })
                     .where({ id, user_id })
-                    .returning("*");
+                    .returning('*');
 
                 // To support RETURNING
                 const project =
-                    typeof result === "object"
+                    typeof result === 'object'
                         ? result
-                        : await knex("projects").where({ id: result });
+                        : await knex('projects').where({ id: result });
 
                 !res.finished &&
-                    res
-                        .status(200)
-                        .send({
-                            new: project.length >= 1 ? project[0] : project,
-                            old: oldProject,
-                        });
+                    res.status(200).send({
+                        new: project.length >= 1 ? project[0] : project,
+                        old: oldProject,
+                    });
             } else {
-                next({ status: 404, message: "Project not found" });
+                next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
             console.log(error.message);
@@ -104,18 +114,22 @@ export default class ProjectController {
         }
     }
 
-    static async delete(req: Request, res: Response, next: NextFunction) {
+    static async delete(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
         try {
             const { id } = req.params;
 
             const { id: user_id } = res.locals.user;
 
-            const project = await knex("projects").where({ id, user_id });
+            const project = await knex('projects').where({ id, user_id });
             if (project.length >= 1) {
-                await knex("projects").where({ id, user_id }).del();
+                await knex('projects').where({ id, user_id }).del();
                 res.sendStatus(200).json(project);
             } else {
-                next({ status: 404, message: "Project not found" });
+                next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
             console.log(error.message);

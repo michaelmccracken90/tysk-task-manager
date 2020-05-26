@@ -1,15 +1,15 @@
-import * as Knex from "knex";
-import faker from "faker";
+import * as Knex from 'knex';
+import faker from 'faker';
 
-export async function seed(knex: Knex): Promise<any> {
+export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
-    await knex("projects").del();
+    await knex('projects').del();
 
-    const usersId = await knex("users").select("id").orderBy("id", "asc");
+    const usersId = await knex('users').select('id').orderBy('id', 'asc');
 
     // Inserts seed entries
     for (let index = 0; index < 200; index++) {
-        await knex("projects").insert({
+        await knex('projects').insert({
             title: faker.lorem.words(2).substr(0, 16),
             description: faker.lorem.sentence(undefined, 125).substr(0, 126),
             user_id:
@@ -17,5 +17,5 @@ export async function seed(knex: Knex): Promise<any> {
         });
     }
 
-    console.log("✅ Projects created.")
+    console.log('✅ Projects created.');
 }

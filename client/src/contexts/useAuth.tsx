@@ -1,10 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import AuthContextProps from "~/interfaces/auth";
-import Login from "~/interfaces/login";
-import Loading from "~/pages/loading";
-import api from "~/services/axios";
-import { useAlert } from "react-alert";
-import { useHistory } from "react-router-dom";
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import AuthContextProps from '~/interfaces/auth';
+import Login from '~/interfaces/login';
+import Loading from '~/pages/loading';
+import api from '~/services/axios';
+import { useAlert } from 'react-alert';
+import { useHistory } from 'react-router-dom';
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
@@ -17,7 +17,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     useEffect(() => {
         (async () => {
             try {
-                const token = window.localStorage.getItem("token") || "";
+                const token = window.localStorage.getItem('token') || '';
                 if (token) {
                     setLoading(true);
                     const results = (
@@ -26,9 +26,9 @@ export const AuthProvider: React.FC = ({ children }) => {
                             {},
                             {
                                 headers: {
-                                    authorization: "Bearer " + token,
+                                    authorization: 'Bearer ' + token,
                                 },
-                            }
+                            },
                         )
                     ).data as Login;
 
@@ -36,31 +36,28 @@ export const AuthProvider: React.FC = ({ children }) => {
                     setLoading(false);
                 }
             } catch (err) {
-                window.localStorage.setItem("token", "");
-                history.push("/login");
+                window.localStorage.setItem('token', '');
+                history.push('/login');
                 setLoading(false);
             }
         })();
     }, [history]);
 
-    async function signIn(
-        username: string,
-        password: string
-    ): Promise<Login | undefined> {
+    async function signIn(username: string, password: string): Promise<Login | undefined> {
         try {
             setLoading(true);
             const results = (
                 await api.post(
-                    "/login",
+                    '/login',
                     { username, password },
                     {
                         headers: {
-                            authorization: "",
+                            authorization: '',
                         },
-                    }
+                    },
                 )
             ).data as Login;
-            window.localStorage.setItem("token", results.token || "");
+            window.localStorage.setItem('token', results.token || '');
 
             setLogin(results);
             setLoading(false);
@@ -68,7 +65,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             return results;
         } catch (err) {
             setLoading(false);
-            alert.error("User or password incorrect");
+            alert.error('User or password incorrect');
         }
     }
 
@@ -76,26 +73,26 @@ export const AuthProvider: React.FC = ({ children }) => {
         setLoading(true);
         const results = (
             await api.post(
-                "/users",
+                '/users',
                 { username, password },
                 {
                     headers: {
-                        authorization: "",
+                        authorization: '',
                     },
-                }
+                },
             )
         ).data as Login;
 
-        window.localStorage.setItem("token", results.token || "");
-        alert.success("Account created");
-        history.push("/login");
+        window.localStorage.setItem('token', results.token || '');
+        alert.success('Account created');
+        history.push('/login');
         setLoading(false);
 
         return results;
     }
 
     async function signOut() {
-        window.localStorage.setItem("token", "");
+        window.localStorage.setItem('token', '');
         setLogin(null);
     }
 

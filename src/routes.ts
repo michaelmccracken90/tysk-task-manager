@@ -4,8 +4,8 @@ import path from 'path';
 import UserController from './controllers/UserController';
 import ProjectController from './controllers/ProjectController';
 import TaskController from './controllers/TaskController';
-import HttpErrorHandler from './interfaces/httpErrorHandler';
 import AuthController from './controllers/AuthController';
+import { HttpErrorHandler } from './@types';
 
 const routes = Router();
 const apiRoutes = Router();
@@ -88,17 +88,14 @@ apiRoutes
     // Auth
     .post('/login', AuthController.index);
 
-// 404 Error
-apiRoutes.use((_req: Request, _res: Response, next: NextFunction) =>
-    next({ status: 404, message: 'Not found' })
-);
-
 // Catch All Error's
 apiRoutes.use(
     (
         { status = 500, message = 'Something went wrong' }: HttpErrorHandler,
         _req: Request,
-        res: Response
+        res: Response,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _next: NextFunction
     ) =>
         !res.finished &&
         res.status(status).json({

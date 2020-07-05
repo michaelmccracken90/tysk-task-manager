@@ -1,14 +1,14 @@
 import knex from '../database';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User from 'src/interfaces/user';
 import Auth from '../auth';
+import { User, NextErrorFunction } from 'src/@types';
 
 export default class UserController {
     static async index(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         const { username } = req.params;
         const { page = 1, perPage = 5 } = req.query;
@@ -32,16 +32,16 @@ export default class UserController {
 
             if (results.length >= 1) res.json(results);
             else next({ status: 404, message: 'User not found' });
-        } catch (error) {
-            console.log(error.message);
-            next({ status: 400 });
+        } catch ({ message }) {
+            console.error(message);
+            next({});
         }
     }
 
     static async create(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             let { password } = req.body;
@@ -67,15 +67,15 @@ export default class UserController {
                 });
             }
         } catch (error) {
-            console.log(error.message);
-            next({ status: 500 });
+            console.error(new Error(error.message));
+            next({});
         }
     }
 
     static async update(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { id } = res.locals.user;
@@ -112,15 +112,15 @@ export default class UserController {
                 next({ status: 404, message: 'User not found' });
             }
         } catch (error) {
-            console.log(error.message);
-            next();
+            console.error(new Error(error.message));
+            next({});
         }
     }
 
     static async delete(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { id } = res.locals.user;
@@ -131,8 +131,8 @@ export default class UserController {
                 next({ status: 404, message: 'User not found' });
             }
         } catch (error) {
-            console.log(error.message);
-            next();
+            console.error(new Error(error.message));
+            next({});
         }
     }
 }

@@ -1,11 +1,12 @@
-import { Response, Request, NextFunction } from 'express';
+import { Response, Request } from 'express';
 import knex from '../database';
+import { NextErrorFunction } from 'src/@types';
 
 export default class TaskController {
     static async index(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { project_id, user_id: target_user_id } = req.params;
@@ -21,7 +22,7 @@ export default class TaskController {
             const results = await knex('tasks').where({ project_id });
             res.json(results);
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }
@@ -29,7 +30,7 @@ export default class TaskController {
     static async create(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { project_id, user_id: target_user_id } = req.params;
@@ -66,7 +67,7 @@ export default class TaskController {
                 next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }
@@ -74,7 +75,7 @@ export default class TaskController {
     static async update(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { id, project_id, user_id: target_user_id } = req.params;
@@ -106,14 +107,14 @@ export default class TaskController {
                 next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }
     static async delete(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { id, project_id, user_id: target_user_id } = req.params;
@@ -142,7 +143,7 @@ export default class TaskController {
                 next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }

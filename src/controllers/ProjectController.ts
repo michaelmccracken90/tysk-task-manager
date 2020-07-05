@@ -1,12 +1,12 @@
 import knex from '../database';
-import { Request, Response, NextFunction } from 'express';
-import Project from 'src/interfaces/project';
+import { Request, Response } from 'express';
+import { Project, NextErrorFunction } from 'src/@types';
 
 export default class ProjectController {
     static async index(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { user_id: target_user_id, id } = req.params;
@@ -31,15 +31,15 @@ export default class ProjectController {
 
             res.json(results);
         } catch (error) {
-            console.log(error.message);
-            next({ status: 400 });
+            console.error(new Error(error.message));
+            next({});
         }
     }
 
     static async create(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { title, description } = req.body;
@@ -64,7 +64,7 @@ export default class ProjectController {
                     .status(201)
                     .send(project.length >= 1 ? project[0] : project);
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }
@@ -72,7 +72,7 @@ export default class ProjectController {
     static async update(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { id, user_id: target_user_id } = req.params;
@@ -109,7 +109,7 @@ export default class ProjectController {
                 next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }
@@ -117,7 +117,7 @@ export default class ProjectController {
     static async delete(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { id } = req.params;
@@ -132,7 +132,7 @@ export default class ProjectController {
                 next({ status: 404, message: 'Project not found' });
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(new Error(error.message));
             next({});
         }
     }

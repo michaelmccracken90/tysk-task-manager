@@ -2,5 +2,9 @@
     "watch": ["build"],
     "ext": "js",
     "exec": "node .",
-    "delay": "200"
+    "delay": "200",
+    "ignore": [
+        ".git",
+        "node_modules/"
+    ]
 }

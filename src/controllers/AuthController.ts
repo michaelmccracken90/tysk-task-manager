@@ -1,13 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import Auth from '../auth';
 import knex from '../database';
-import User from 'src/interfaces/user';
+import { User, NextErrorFunction } from 'src/@types';
 
 export default class AuthController {
     static async index(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void | Response<unknown>> {
         try {
             const { username, password = '' } = req.body;
@@ -53,8 +53,8 @@ export default class AuthController {
                 status: 404,
                 message: 'Username or password incorrect',
             });
-        } catch ({ message }) {
-            console.log(message);
+        } catch (error) {
+            console.error(new Error(error.message));
             next({});
         }
     }
@@ -65,7 +65,7 @@ export default class AuthController {
     static async token(
         req: Request,
         res: Response,
-        next: NextFunction
+        next: NextErrorFunction
     ): Promise<void> {
         try {
             const { authorization } = req.headers;
@@ -91,11 +91,9 @@ export default class AuthController {
                 status: 403,
                 message: 'Forbidden',
             });
-        } catch ({ message }) {
-            next({
-                status: 403,
-                message,
-            });
+        } catch (error) {
+            console.error(new Error(error.message));
+            next({});
         }
     }
 }

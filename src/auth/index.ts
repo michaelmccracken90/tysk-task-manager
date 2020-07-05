@@ -1,7 +1,7 @@
 import JWT from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import User from 'src/interfaces/user';
+import { User } from 'src/@types';
 
 class Auth {
     private static JWT_SECRET =

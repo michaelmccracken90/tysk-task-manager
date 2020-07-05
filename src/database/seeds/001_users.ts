@@ -1,7 +1,7 @@
 import * as Knex from 'knex';
 import bcrypt from 'bcrypt';
 import faker from 'faker';
-import User from 'src/interfaces/user';
+import { User } from 'src/@types';
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries

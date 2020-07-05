@@ -22,13 +22,13 @@ export const AuthProvider: React.FC = ({ children }) => {
                     setLoading(true);
                     const results = (
                         await api.post(
-                            "/login",
+                            '/login',
                             {},
                             {
                                 headers: {
                                     authorization: 'Bearer ' + token,
                                 },
-                            },
+                            }
                         )
                     ).data as Login;
 
@@ -43,7 +43,10 @@ export const AuthProvider: React.FC = ({ children }) => {
         })();
     }, [history]);
 
-    async function signIn(username: string, password: string): Promise<Login | undefined> {
+    async function signIn(
+        username: string,
+        password: string
+    ): Promise<Login | undefined> {
         try {
             setLoading(true);
             const results = (
@@ -54,7 +57,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                         headers: {
                             authorization: '',
                         },
-                    },
+                    }
                 )
             ).data as Login;
             window.localStorage.setItem('token', results.token || '');
@@ -64,31 +67,52 @@ export const AuthProvider: React.FC = ({ children }) => {
 
             return results;
         } catch (err) {
+            switch (parseInt(err.message.match(/\d+/g))) {
+                case 404:
+                    alert.error('User or password incorrect');
+                    break;
+
+                case 500:
+                    console.error(new Error(err.message));
+                    alert.error(
+                        'Estamos com problemas, tente novamente mais tarde.'
+                    );
+                    break;
+
+                default:
+                    break;
+            }
+        } finally {
             setLoading(false);
-            alert.error('User or password incorrect');
         }
     }
 
     async function signUp(username: string, password: string) {
-        setLoading(true);
-        const results = (
-            await api.post(
-                '/users',
-                { username, password },
-                {
-                    headers: {
-                        authorization: '',
-                    },
-                },
-            )
-        ).data as Login;
+        try {
+            setLoading(true);
+            const results = (
+                await api.post(
+                    '/users',
+                    { username, password },
+                    {
+                        headers: {
+                            authorization: '',
+                        },
+                    }
+                )
+            ).data as Login;
 
-        window.localStorage.setItem('token', results.token || '');
-        alert.success('Account created');
-        history.push('/login');
-        setLoading(false);
+            window.localStorage.setItem('token', results.token || '');
+            alert.success('Account created');
+            history.push('/login');
 
-        return results;
+            return results;
+        } catch (err) {
+            console.error(new Error(err.message));
+            alert.error('Estamos com problemas, tente novamente mais tarde.');
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function signOut() {

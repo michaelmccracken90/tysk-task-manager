@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ debug: process.env.DEBUG });
 
 import express from 'express';
@@ -12,7 +13,5 @@ app.use(cors());
 app.use(routes);
 
 app.listen(port, () =>
-    console.log(
-        `[server] Express is running at http://127.0.0.1:${process.env.port}`
-    )
+    console.log(`Express is running at http://127.0.0.1:${process.env.port}`)
 );

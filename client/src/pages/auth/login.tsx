@@ -43,6 +43,7 @@ const Login: React.FC = () => {
                 type="text"
                 name="username"
                 placeholder="Username"
+                autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.currentTarget.value)}
                 required
@@ -51,6 +52,7 @@ const Login: React.FC = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
                 required

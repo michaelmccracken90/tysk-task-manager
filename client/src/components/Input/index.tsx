@@ -15,6 +15,7 @@ type InputProps = {
     disabled?: boolean;
     className?: string;
     autoFocus?: boolean;
+    autoComplete?: 'username' | 'current-password' | 'new-password' | 'off' | 'on';
 };
 
 const Input: React.FC<InputProps> = ({
@@ -24,8 +25,9 @@ const Input: React.FC<InputProps> = ({
     required,
     onChange,
     onBlur,
-    value,
+    value = '',
     disabled,
+    autoComplete = 'off',
     className = '',
     autoFocus,
 }: InputProps) => {
@@ -38,9 +40,11 @@ const Input: React.FC<InputProps> = ({
             required={required}
             onChange={onChange}
             onBlur={onBlur}
-            value={value || ''}
+            value={value}
             disabled={disabled}
             autoFocus={autoFocus}
+            autoComplete={autoComplete}
+
         />
     );
 };

@@ -34,7 +34,7 @@ export const ProjectsProvider: React.FC = ({ children }) => {
     const createProjects = useCallback(
         async (title: string, description: string) => {
             if (title && title.length > 16) return alert.error('Title too long.');
-            if (description && description.length > 16) return alert.error('Description too long.');
+            if (description && description.length > 126) return alert.error('Description too long.');
             setLoading(true);
             const results = (
                 await api.post('/users/projects', {

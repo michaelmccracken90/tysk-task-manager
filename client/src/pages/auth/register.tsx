@@ -45,6 +45,7 @@ const Register: React.FC = () => {
                 type="text"
                 name="username"
                 placeholder="Username"
+                autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.currentTarget.value)}
                 required
@@ -53,6 +54,7 @@ const Register: React.FC = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
                 required
@@ -61,6 +63,7 @@ const Register: React.FC = () => {
                 type="password"
                 name="repeatPassword"
                 placeholder="Repeat password"
+                autoComplete="new-password"
                 value={repeatPassword}
                 onChange={(e) => setRepeatPassword(e.currentTarget.value)}
                 required

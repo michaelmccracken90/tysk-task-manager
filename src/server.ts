@@ -13,5 +13,5 @@ app.use(cors());
 app.use(routes);
 
 app.listen(port, () =>
-    console.log(`Express is running at http://127.0.0.1:${process.env.port}`)
+    console.log(`Express is running at http://127.0.0.1:${port}`)
 );

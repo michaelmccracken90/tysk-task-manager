@@ -7,7 +7,7 @@ export const up = async (knex: Knex): Promise<void> =>
         table.string('password', 72).notNullable();
 
         table.timestamp('created_at').defaultTo(knex.fn.now());
-        process.env.database_client !== 'pg' &&
+        process.env.DATABASE_CLIENT !== 'pg' &&
             table
                 .timestamp('updated_at')
                 .defaultTo(

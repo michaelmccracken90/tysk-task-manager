@@ -3,18 +3,18 @@ import { Config } from 'knex';
 const {
     NODE_ENV,
     DATABASE_URL,
-    database_timezone,
-    database_client,
-    database_host,
-    database_name,
-    database_user,
-    database_password,
+    DATABASE_TIMEZONE,
+    DATABASE_CLIENT,
+    DATABASE_HOST,
+    DATABASE_NAME,
+    DATABASE_USER,
+    DATABASE_PASSWORD,
 } = process.env;
 
 if (NODE_ENV !== 'production') require('ts-node/register');
 
 const knexConfig = {
-    client: database_client || 'mysql2',
+    client: DATABASE_CLIENT || 'mysql2',
 
     pool: {
         min: 1,
@@ -27,16 +27,16 @@ const knexConfig = {
     seeds: {
         directory: 'seeds',
     },
-    timezone: database_timezone || 'utc',
+    timezone: DATABASE_TIMEZONE || 'utc',
 } as Config;
 
 knexConfig.connection = DATABASE_URL
     ? DATABASE_URL
     : {
-          host: database_host || '127.0.0.1',
-          database: database_name || 'tysk',
-          user: database_user || 'root',
-          password: database_password || '',
+          host: DATABASE_HOST || '127.0.0.1',
+          database: DATABASE_NAME || 'tysk',
+          user: DATABASE_USER || 'root',
+          password: DATABASE_PASSWORD || '',
       };
 
 module.exports = knexConfig;

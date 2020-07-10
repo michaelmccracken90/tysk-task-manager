@@ -14,7 +14,7 @@ export const up = async (knex: Knex): Promise<void> =>
             .onDelete('CASCADE');
 
         table.timestamp('created_at').defaultTo(knex.fn.now());
-        process.env.database_client !== 'pg' &&
+        process.env.DATABASE_CLIENT !== 'pg' &&
             table
                 .timestamp('updated_at')
                 .defaultTo(

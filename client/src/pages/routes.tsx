@@ -16,21 +16,31 @@ import { TasksProvider } from '../contexts/useTasks';
 export default () => {
     return (
         <BrowserRouter>
-            <AuthProvider>
-                <ProjectsProvider>
-                    <TasksProvider>
-                        <Switch>
-                            <Route path="/" exact component={Landpage} />
-                            <Route path="/app" exact component={App} />
-                            <Route path="/login" exact component={Login} />
-                            <Route path="/register" exact component={Register} />
-                            <Route path="/status" exact component={Status} />
-                            <Route path="/404" component={NotFound} />
-                            <Redirect to="/404" />
-                        </Switch>
-                    </TasksProvider>
-                </ProjectsProvider>
-            </AuthProvider>
+            <Switch>
+                <Route path="/" exact component={Landpage} />
+                <AuthProvider>
+                    <ProjectsProvider>
+                        <TasksProvider>
+                            <Switch>
+                                <Route path="/app" exact component={App} />
+                                <Route path="/login" exact component={Login} />
+                                <Route
+                                    path="/register"
+                                    exact
+                                    component={Register}
+                                />
+                                <Route
+                                    path="/status"
+                                    exact
+                                    component={Status}
+                                />
+                                <Route path="/404" component={NotFound} />
+                                <Redirect to="/404" />
+                            </Switch>
+                        </TasksProvider>
+                    </ProjectsProvider>
+                </AuthProvider>
+            </Switch>
         </BrowserRouter>
     );
 };

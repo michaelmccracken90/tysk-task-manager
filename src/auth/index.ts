@@ -14,12 +14,8 @@ class Auth {
     }
 
     static decodeToken(token: string): User {
-        const results = JWT.verify(token, Auth.JWT_SECRET || 'secret') as User;
-        return {
-            id: results.id,
-            username: results.username,
-            password: results.password,
-        };
+        const {id, username} = JWT.verify(token, Auth.JWT_SECRET || 'secret') as User
+        return {id, username} as User;
     }
 
     static password(data: unknown, encrypted?: string): string | boolean {

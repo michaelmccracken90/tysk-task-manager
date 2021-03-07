@@ -43,10 +43,11 @@ export default class AuthController {
                 .where({ username })
                 .select(['id', 'username', 'password'])) as Array<User>;
 
-            if (user.length >= 1 && Auth.password(password, user[0].password)) {
+                if (user.length >= 1 && Auth.password(password, user[0].password)) {
+                const {id} = user[0]
                 res.status(200).send({
-                    token: Auth.createToken(user[0]),
-                    user: { id: user[0].id, username },
+                    token: Auth.createToken({id, username}),
+                    user: { id: id, username },
                 });
             }
             next({

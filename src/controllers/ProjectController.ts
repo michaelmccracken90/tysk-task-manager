@@ -51,18 +51,16 @@ export default class ProjectController {
                     description,
                     user_id,
                 })
-                .returning('*');
+                .returning('*') as unknown;
 
             // To support RETURNING
             const project =
-                typeof result === 'object'
+                (isNaN(Math.abs(result as number))
                     ? result
-                    : await knex('projects').where({ id: result });
+                    : await knex('projects').where({ id: (result as Array<number>)[0] })) as Array<Project>;
 
-            !res.finished &&
-                res
-                    .status(201)
-                    .send(project.length >= 1 ? project[0] : project);
+            !res.writableEnded &&
+                res.status(201).send((project.length >= 1 ? project[0] : project));
         } catch (error) {
             console.error(new Error(error.message));
             next({});
@@ -92,15 +90,15 @@ export default class ProjectController {
                 const result = await knex('projects')
                     .update({ title, description })
                     .where({ id, user_id })
-                    .returning('*');
+                    .returning('*') as unknown;
 
-                // To support RETURNING
-                const project =
-                    typeof result === 'object'
-                        ? result
-                        : await knex('projects').where({ id: result });
+                    // To support RETURNING
+                    const project =
+                        (isNaN(Math.abs(result as number))
+                            ? result
+                            : await knex('projects').where({ id: (result as Array<number>)[0] })) as Array<Project>;
 
-                !res.finished &&
+                !res.writableEnded &&
                     res.status(200).send({
                         new: project.length >= 1 ? project[0] : project,
                         old: oldProject,
@@ -127,7 +125,7 @@ export default class ProjectController {
             const project = await knex('projects').where({ id, user_id });
             if (project.length >= 1) {
                 await knex('projects').where({ id, user_id }).del();
-                res.sendStatus(200).json(project);
+                res.json(project);
             } else {
                 next({ status: 404, message: 'Project not found' });
             }

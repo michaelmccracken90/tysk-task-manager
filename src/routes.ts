@@ -97,7 +97,7 @@ apiRoutes.use(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _next: NextFunction
     ) =>
-        !res.finished &&
+        !res.writableEnded &&
         res.status(status).json({
             status,
             // Capitalize message

@@ -54,13 +54,13 @@ export default class TaskController {
                         description,
                         project_id,
                     })
-                    .returning('*');
+                    .returning('*') as unknown;
 
-                // To support RETURNING
-                const task =
-                    typeof result === 'object'
-                        ? result
-                        : await knex('tasks').where({ id: result });
+                    // To support RETURNING
+                    const task =
+                        (isNaN(Math.abs(result as number))
+                            ? result
+                            : await knex('tasks').where({ id: (result as Array<number>)[0] }));
 
                 res.status(201).send(task);
             } else {
